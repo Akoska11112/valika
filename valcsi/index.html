@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <title>Valorant.gg.másként</title>
+    <style>
+        body {
+          
+            font-family: Arial, sans-serif;
+            background: url('iyaacpwpwfr41.png') no-repeat center center fixed;
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+           
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #990000;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input {
+            width: calc(100% - 10px);
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .form-group select {
+            width: calc(100% - 10px);
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .submit-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+        .message {
+            text-align: center;
+            font-weight: bold;
+            color: green;
+        }
+      
+    </style>
+</head>
+<body>
+ 
+    <div class="container">
+        <h1>Találd meg a neked megfelelő Valis videót</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row g-3 align-items-center">
+                  <div class="col-auto">
+                    <label for="agentName" class="col-form-label">Agent neve</label>
+                  </div>
+                  <div class="col-auto" style="width: 70%;">
+                    <select id="agentName" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+                      <option value="Neon">Neon</option>
+                      <option value="Raze">Raze</option>
+                      <option value="Reyna">Reyna</option>
+                    </select>
+                  </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row g-3 align-items-center">
+                  <div class="col-auto">
+                    <label for="mapsName" class="col-form-label">Map neve</label>
+                  </div>
+                  <div class="col-auto" style="width: 70%;">
+                    <select id="mapsName" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+                      <option value="Ascent">Ascent</option>
+                      <option value="Breeze">Breeze</option>
+                      <option value="Bind">Bind</option>
+                      <option value="Haven">Haven</option>
+                      <option value="Icebox">Icebox</option>
+                      <option value="Fracture">Fracture</option>
+                      <option value="Split">Split</option>
+                      <option value="Breeze">Breeze</option>
+                    </select>
+                  </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="d-grid gap-2 col-6 mx-auto">
+                  <button id="kereses" class="btn btn-primary" type="button">Mutasd a videókat</button>
+                  <button id="elrejtes" class="btn btn-outline-danger" type="button">Rejtsd el az eredményt</button>
+                </div>
+            </div>
+        </div>
+            
+    </div>
+    
+    <div id="eredmeny" class="container" style="display: none; text-align: center;">
+        <h2 id="eredmenyCim">TESZT</h2>
+        <p id="eredmenylink"></p>
+    </div>
+    
+    <script>
+        
+       let agents = {
+          "Reyna": {
+            "Ascent": "https://www.youtube.com/watch?v=DHGgkkB5C7o",
+            "Bind": "https://www.youtube.com/watch?v=GvNf1jx9lFo",
+            "Breeze": "https://www.youtube.com/watch?v=MNdKlHSutS8",
+            "Fracture": "https://www.youtube.com/watch?v=7z4GFNZ3ac0",
+            "Haven": "https://www.youtube.com/watch?v=6zlJ0Szp_nE",
+            "Icebox": "https://www.youtube.com/watch?v=vxIPi-xTJhE",
+            "Split": "https://www.youtube.com/watch?v=6zlJ0Szp_nE",
+            "Viper's Ascent": "https://www.youtube.com/watch?v=6zlJ0Szp_nE",
+          },
+          "Raze": {
+            "Ascent": "https://www.youtube.com/watch?v=m9m6HAbAtW4",
+            "Bind": "https://www.youtube.com/watch?v=-sX0fTTTkzI",
+            "Breeze": "https://www.youtube.com/watch?v=xpo8tOUsx1Y",
+          },
+          "Neon": {
+            "Ascent": "https://www.youtube.com/watch?v=B378zKij4oo",
+            "Bind": "https://www.youtube.com/watch?v=EW2ywEDJ0nQ",
+            "Breeze": "https://www.youtube.com/watch?v=FQc31H8nbJQ",
+          }
+        }
+        
+        
+        
+        $(document).ready(function() {
+            $('#kereses').click(function() {
+                $('#eredmeny').hide();
+                $('#eredmenylink').html('');
+                var agentN  = $('#agentName').val();
+                var mapN    = $('#mapsName').val();
+                console.log(agents[agentN]);
+                if(agents[agentN]) {
+                    if(agents[agentN][mapN]) {
+                        $('#eredmenyCim').text(agentN + ' videói ' + mapN + ' mapon');
+                        const videoLink = $('<a></a>')
+                          .attr('href', agents[agentN][mapN])
+                          .attr('target', '_blank')
+                          .text(agents[agentN][mapN]);
+                        $('#eredmenylink').html(videoLink);
+                    } else {
+                        $('#eredmenyCim').text('Nem található videó a feltételek alapján');
+                    }
+                } else {
+                    $('#eredmenyCim').text('Nem található videó a feltételek alapján');
+                }
+                
+                $('#eredmeny').slideDown();
+            });
+            
+            $('#elrejtes').click(function() {
+                $('#eredmeny').slideUp();
+                $('#eredmenylink').html('');
+            });
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    
+    
+</body>
+</html>
